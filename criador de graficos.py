@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt; import string
 
-pessoas_notas = {}
+valor_item = {}
 
 while True:
     print("============== CRIAR GRAFICO ==============\n")
@@ -14,75 +14,75 @@ while True:
 
     if choices == 1:
         while True: 
-            nome_pessoa = input("ESCREVA o NOME da PESSOA ou\n0) para voltar no menu anterior\n").strip().lower()
-            if nome_pessoa == "0":
+            nome_item = input("ESCREVA o NOME do ITEM comparativo ou\n0) para voltar no menu anterior\n").strip().lower()
+            if nome_item == "0":
                 break
-            elif nome_pessoa.isdigit() or all(c in string.punctuation for c in nome_pessoa):
+            elif nome_item.isdigit() or all(c in string.punctuation for c in nome_item):
                 print("Nome inválido! Use apenas letras.\n")
                 continue
             
-            if nome_pessoa in pessoas_notas:
-                print(f"A pessoa '{nome_pessoa}' já está cadastrada com nota {pessoas_notas[nome_pessoa]}.")
-                atualizar = input("Deseja atualizar a nota? (s/n): ").strip().lower()
+            if nome_item in valor_item:
+                print(f"O nome '{nome_item}' já está cadastrada com valor {valor_item[nome_item]}.")
+                atualizar = input("Deseja atualizar o valor? (s/n): ").strip().lower()
                 if atualizar != 's':
                     continue
 
             try:
-                nota = float(input(f"ADICIONE a NOTA de {nome_pessoa}:\n"))
+                nota = float(input(f"ADICIONE o VALOR de {nome_item}:\n"))
             except ValueError:
                 print("Digite um número válido!")
                 continue
             print()
             
             
-            pessoas_notas[nome_pessoa] = nota
-            print(f"✓ Adicionado: {nome_pessoa} -> {nota}")
-            print(f"\nPESSOAS E NOTAS:\n")
-            for pessoa, nota_valor in pessoas_notas.items():
-                print(f"  {pessoa}: {nota_valor}")
+            valor_item[nome_item] = nota
+            print(f"Adicionado: {nome_item} -> {nota}")
+            print(f"\nITEMS e VALORES:\n")
+            for item, valor in valor_item.items():
+                print(f"  {item}: {valor}")
             print()
 
     
     elif choices == 2:
         while True:
-            if not pessoas_notas:
+            if not valor_item:
                 print("Nenhum dado cadastrado!\n")
                 break
             
-            print("\nPESSOAS CADASTRADAS:")
-            for pessoa, nota in pessoas_notas.items():
-                print(f"  {pessoa}: {nota}")
+            print("\ITEMS CADASTRADOS:")
+            for item, valor in valor_item.items():
+                print(f"  {item}: {valor}")
             print()
             
-            remover_pessoa = input("DIGITE o NOME da pessoa para remover ou\n0) para voltar no menu anterior\n").strip().lower()
+            remover_item = input("DIGITE o NOME da pessoa para remover ou\n0) para voltar no menu anterior\n").strip().lower()
             
-            if remover_pessoa == "0":
+            if remover_item == "0":
                 break
-            elif remover_pessoa in pessoas_notas:
-                nota_removida = pessoas_notas.pop(remover_pessoa)
-                print(f"✓ Removido: {remover_pessoa} (nota: {nota_removida})\n")
+            elif remover_item in valor_item:
+                nota_removida = valor_item.pop(remover_item)
+                print(f"Removido: {remover_item} (nota: {nota_removida})\n")
             else:
-                print("PESSOA não encontrada na lista!\n")
+                print("ITEM não encontrada na lista!\n")
 
     
     elif choices == 3:
-        if not pessoas_notas:
+        if not valor_item:
             print("Informação incompleta! Nenhum dado cadastrado.\n")
         else:
             print("\n========== ESTATÍSTICAS ==========")
-            print(f"Total de itens: {len(pessoas_notas)}")
+            print(f"Total de itens: {len(valor_item)}")
             
-            for pessoa, nota in pessoas_notas.items():
+            for pessoa, nota in valor_item.items():
                 print(f"  {pessoa}: {nota}")
             
-            notas = list(pessoas_notas.values())
+            notas = list(valor_item.values())
             print(f"\nMédia dos valores: {sum(notas) / len(notas):.2f}")
             print(f"Maior valor: {max(notas):.2f}")
             print(f"Menor valor: {min(notas):.2f}")
             print("==================================\n")
 
     elif choices == 4:
-        if not pessoas_notas:
+        if not valor_item:
             print("Não há dados para criar o gráfico!\n")
             continue
         
@@ -90,8 +90,8 @@ while True:
         yname = input("Adicione a DESCRIÇÃO dos NÚMEROS (ex: Notas):\n").strip()
         xname = input("Adicione a DESCRIÇÃO dos DADOS (ex: Pessoas):\n").strip()
         
-        pessoas = list(pessoas_notas.keys())
-        notas = list(pessoas_notas.values())
+        pessoas = list(valor_item.keys())
+        notas = list(valor_item.values())
         
         plt.figure(figsize=(8, 4.5))
         plt.bar(pessoas, notas, color='green')
